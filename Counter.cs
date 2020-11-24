@@ -22,6 +22,10 @@ namespace virtualpets
                 Console.Write(TickSpeed);
                 Console.SetCursorPosition(5, 5);
                 Console.Write(count);
+            }else{
+                Console.WriteLine("Pet has died");
+                Console.ReadKey(true);
+                Environment.Exit(0);
             }
         }
 
