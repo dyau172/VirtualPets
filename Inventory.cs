@@ -1,10 +1,16 @@
 using System;
+using System.Collections.Generic;
 
 namespace virtualpets
 {
-    class Inventory
+    public class Inventory
     {
-        public int Coin {get; set;}
-        public int Medicine {get; set;}
+       
+       int coin = 20;
+       int medicine = 1;
+
+
     }
+
+   
 }

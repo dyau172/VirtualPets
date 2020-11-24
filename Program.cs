@@ -6,7 +6,9 @@ namespace virtualpets
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Fish cakes!");
+            
+            App app = new App();
+            app.Run();
         }
     }
 }

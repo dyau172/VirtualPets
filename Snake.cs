@@ -7,14 +7,18 @@ namespace virtualpets {
         :base(healthy, hunger, happiness, idealTemp)
         {
             Name = name;
+            Healthy = healthy;
             healthy = true;
+            Hunger = hunger;
+            Happiness = happiness;
+            IdealTemperature = idealTemp;
 
 
         
 
         }
 
-        public void TestMethod(){
+        public override void Update(){
             Console.WriteLine("Do something");
         }
     }
