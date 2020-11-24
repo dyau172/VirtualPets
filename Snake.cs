@@ -2,9 +2,9 @@ using System;
 
 namespace virtualpets {
     class Snake : Pet {
-        public string Name { get; set; }
+        
         public Snake (string name, bool healthy, int hunger, int happiness, int idealTemp)
-        :base(healthy, hunger, happiness, idealTemp)
+        :base(name, healthy, hunger, happiness, idealTemp)
         {
             Name = name;
             Healthy = healthy;
