@@ -169,15 +169,15 @@ namespace virtualpets {
 
         public void Draw () {
             if (pet.Hunger > 0){
-            Console.WriteLine (" ╔══════════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
-            Console.WriteLine (" ║    Menu              ║   ║      Pet Stats                                 ║  ║                                  ║ ");
-            Console.WriteLine ($"║    S - Shop          ║   ║      Name: {pet.Name}                          ║  ║ Key                              ║");
-            Console.WriteLine ($"║    F - Feed          ║   ║      Healthy: {pet.Healthy}                    ║  ║                                  ║");
-            Console.WriteLine ($"║    P - Play          ║   ║      Happiness: {pet.Happiness}                ║  ║ 0 - not happy / 100 - very happy ║ ");
-            Console.WriteLine ($"║    E - Exit          ║   ║      Hunger: {pet.Hunger}                      ║  ║ 0 - starving / 100 full          ║");
-            Console.WriteLine ($"║                      ║   ║      Ideal Temperature: {pet.IdealTemperature} ║  ║                                  ║");
-            Console.WriteLine ($"║                      ║   ║      Current Temperature: {currentTemp}        ║  ║                                  ║");
-            Console.WriteLine (" ╚══════════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
+            Console.WriteLine (" ╔════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
+            Console.WriteLine (" ║    Menu        ║   ║      Pet Stats                                 ║  ║                                  ║");
+            Console.WriteLine ($"║    S - Shop    ║   ║      Name: {pet.Name}                          ║  ║ Key                              ║");
+            Console.WriteLine ($"║    F - Feed    ║   ║      Healthy: {pet.Healthy}                    ║  ║                                  ║");
+            Console.WriteLine ($"║    P - Play    ║   ║      Happiness: {pet.Happiness}                ║  ║ 0 - not happy / 100 - very happy ║");
+            Console.WriteLine ($"║    E - Exit    ║   ║      Hunger: {pet.Hunger}                      ║  ║ 0 - starving / 100 full          ║");
+            Console.WriteLine ($"║                ║   ║      Ideal Temperature: {pet.IdealTemperature} ║  ║                                  ║");
+            Console.WriteLine ($"║                ║   ║      Current Temperature: {currentTemp}        ║  ║                                  ║");
+            Console.WriteLine (" ╚════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
 
             
             appState = AppState.Running;
