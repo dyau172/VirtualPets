@@ -9,7 +9,7 @@ namespace virtualpets {
             Name = name;
             Healthy = healthy;
             healthy = true;
-            //Hunger = hunger;
+            Hunger = hunger;
             Happiness = happiness;
             IdealTemperature = idealTemp;
 

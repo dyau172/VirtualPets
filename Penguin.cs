@@ -17,13 +17,15 @@ namespace virtualpets {
             Console.WriteLine("Do something");
         }
 
+        /*
         public override void DisplayPetStats () {
             Console.WriteLine ($"Name: {Name}");
             Console.WriteLine ($"Healthy: {Healthy}");
             Console.WriteLine ($"Happiness: {Happiness}");
-            Console.WriteLine ($"Healthy: {Hunger}");
+            //Console.WriteLine ($"Healthy: {Hunger}");
             Console.WriteLine ($"Ideal Temperature: {IdealTemperature}");
         }
+        */
 
     }
 

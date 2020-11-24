@@ -7,7 +7,9 @@ namespace virtualpets
         static void Main(string[] args)
         {
             
+           
             App app = new App();
+            app.SelectPet();
             app.Run();
         }
     }

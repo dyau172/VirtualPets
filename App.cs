@@ -23,13 +23,16 @@ namespace virtualpets {
         int currentTemp;
 
         Pet pet = new Dog("Bob", true, 50, 50, 24);
+        
 
         public App () {
 
         }
 
         public void Run () {
-            Draw();
+
+            
+            
             Initialise ();
 
             do {
@@ -37,11 +40,8 @@ namespace virtualpets {
 
                 switch (appState) {
                     case AppState.Running:
-                        Update ();
-                        Display ();
-                        MakeCheese ();
-                        DisplayMenu ();
-                        pet.DisplayPetStats ();
+                        Update();
+                        Draw();                      
 
                         break;
                     case AppState.Paused:
@@ -82,6 +82,7 @@ namespace virtualpets {
             Console.CursorVisible = false;
             Console.Clear ();
             counter.Initialise ();
+            
         }
 
         public void CheckKeyInput () {
@@ -108,13 +109,11 @@ namespace virtualpets {
                     appState = AppState.Help;
                 }
 
-                if (keyPressed == ConsoleKey.S) {
-                    appState = AppState.Shop;
+                if (keyPressed == ConsoleKey.W) {
+                 Console.WriteLine("Cow");
                 }
 
-                if (keyPressed == ConsoleKey.F) {
-                    appState = AppState.Feed;
-                }
+               
 
                 if (keyPressed == ConsoleKey.P) {
                     if (appState != AppState.Paused) {
@@ -136,7 +135,7 @@ namespace virtualpets {
             counter.Display ();
         }
 
-        /*
+        
 
         public void SelectPet () {
             Console.WriteLine ("Select a pet");
@@ -147,24 +146,29 @@ namespace virtualpets {
             if (selection == 1) {
                 Console.WriteLine ("Snakey! I choose you!");
                 pet = Dependancy.CreateSnake ();
-                DisplayMenu ();
+                
+                
             } else if (selection == 2) {
                 Console.WriteLine ("Pengu! I choose you!");
                 pet = Dependancy.CreatePenguin ();
-                DisplayMenu ();
+                
+                
             } else {
                 Console.WriteLine ("Invalid Choice");
                 Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
                 appState = AppState.Exiting;
+                
             }
         }
-        */
+        
+        
 
         public void DisplayMenu () {
 
         }
 
         public void Draw () {
+            if (pet.Hunger > 0){
             Console.WriteLine (" ╔══════════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
             Console.WriteLine (" ║    Menu              ║   ║      Pet Stats                                 ║  ║                                  ║ ");
             Console.WriteLine ($"║    S - Shop          ║   ║      Name: {pet.Name}                          ║  ║ Key                              ║");
@@ -175,10 +179,23 @@ namespace virtualpets {
             Console.WriteLine ($"║                      ║   ║      Current Temperature: {currentTemp}        ║  ║                                  ║");
             Console.WriteLine (" ╚══════════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
 
+            
+            appState = AppState.Running;
+            Console.ReadKey (true);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear ();
+
+
+            }else{
+                Console.WriteLine("Pet has died");
+                Console.ReadKey(true);
+                Environment.Exit(0);
+            }
+
+           
         }
 
-        public void MakeCheese () {
-            Console.WriteLine ("Made cheese");
-        }
+       
     }
 }
