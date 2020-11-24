@@ -12,7 +12,7 @@ namespace virtualpets {
         }
 
         public static Shop CreateShop () {
-            return new Shop ();
+            return new Shop (); 
         }
 
         public static Inventory CreateInventory () {

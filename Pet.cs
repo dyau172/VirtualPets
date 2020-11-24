@@ -2,7 +2,7 @@ using System;
 
 namespace virtualpets {
     public abstract class Pet {
-
+        public string Name {get; set;}
         public bool Healthy { get; set; }
         public int Happiness { get; set; }
         public int Hunger{
@@ -16,7 +16,7 @@ namespace virtualpets {
             }
         }
         public int IdealTemperature { get; set; }
-        public Pet (bool healthy, int happiness, int hunger, int idealTemp) {
+        public Pet (string name, bool healthy, int happiness, int hunger, int idealTemp) {
            
 
         }

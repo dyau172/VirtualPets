@@ -17,20 +17,20 @@ namespace virtualpets {
         //private bool appRunning = true;
         AppState appState = AppState.Running;
         Counter counter = new Counter (1000);
-        Shop shop = Dependancy.CreateShop();
+        Shop shop = Dependancy.CreateShop ();
 
         public int startTemp = new Random ().Next (5, 40);
-        
-        Pet pet;
+        int currentTemp;
 
+        Pet pet = new Dog("Bob", true, 50, 50, 24);
 
         public App () {
 
         }
 
         public void Run () {
+            Draw();
             Initialise ();
-            SelectPet ();
 
             do {
                 CheckKeyInput ();
@@ -39,7 +39,9 @@ namespace virtualpets {
                     case AppState.Running:
                         Update ();
                         Display ();
-                        
+                        MakeCheese ();
+                        DisplayMenu ();
+                        pet.DisplayPetStats ();
 
                         break;
                     case AppState.Paused:
@@ -48,11 +50,11 @@ namespace virtualpets {
                         DisplayHelp ();
                         break;
                     case AppState.Shop:
-                        shop.DisplayToys();
-                        shop.PurchaseToys();
+                        shop.DisplayToys ();
+                        shop.PurchaseToys ();
                         break;
                     case AppState.Feed:
-                        pet.Hunger -= 10;
+
                         pet.Update ();
                         break;
                     default:
@@ -134,31 +136,49 @@ namespace virtualpets {
             counter.Display ();
         }
 
+        /*
+
         public void SelectPet () {
             Console.WriteLine ("Select a pet");
             Console.WriteLine ("1. Snake");
             Console.WriteLine ("2. Penguin");
             int selection = Convert.ToInt32 (Console.ReadLine ());
 
-         
             if (selection == 1) {
                 Console.WriteLine ("Snakey! I choose you!");
                 pet = Dependancy.CreateSnake ();
-                DisplayMenu();
+                DisplayMenu ();
             } else if (selection == 2) {
                 Console.WriteLine ("Pengu! I choose you!");
                 pet = Dependancy.CreatePenguin ();
-                DisplayMenu();
+                DisplayMenu ();
             } else {
                 Console.WriteLine ("Invalid Choice");
                 Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
                 appState = AppState.Exiting;
             }
         }
+        */
 
         public void DisplayMenu () {
-            Console.WriteLine(pet);
 
+        }
+
+        public void Draw () {
+            Console.WriteLine (" ╔══════════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
+            Console.WriteLine (" ║    Menu              ║   ║      Pet Stats                                 ║  ║                                  ║ ");
+            Console.WriteLine ($"║    S - Shop          ║   ║      Name: {pet.Name}                          ║  ║ Key                              ║");
+            Console.WriteLine ($"║    F - Feed          ║   ║      Healthy: {pet.Healthy}                    ║  ║                                  ║");
+            Console.WriteLine ($"║    P - Play          ║   ║      Happiness: {pet.Happiness}                ║  ║ 0 - not happy / 100 - very happy ║ ");
+            Console.WriteLine ($"║    E - Exit          ║   ║      Hunger: {pet.Hunger}                      ║  ║ 0 - starving / 100 full          ║");
+            Console.WriteLine ($"║                      ║   ║      Ideal Temperature: {pet.IdealTemperature} ║  ║                                  ║");
+            Console.WriteLine ($"║                      ║   ║      Current Temperature: {currentTemp}        ║  ║                                  ║");
+            Console.WriteLine (" ╚══════════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
+
+        }
+
+        public void MakeCheese () {
+            Console.WriteLine ("Made cheese");
         }
     }
 }
