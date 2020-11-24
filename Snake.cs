@@ -7,7 +7,7 @@ namespace virtualpets {
         :base(name, healthy, hunger, happiness, idealTemp)
         {
             Name = name;
-            Healthy = healthy;
+            
             healthy = true;
             Hunger = hunger;
             Happiness = happiness;
