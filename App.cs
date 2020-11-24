@@ -21,7 +21,7 @@ namespace virtualpets
         AppState appState = AppState.Running;
         Counter counter = new Counter(1000);
 
-        public int startTemp = new Random().Next(5,30);
+        public int startTemp = new Random().Next(5,40);
         Pet pet;
 
         public App()
