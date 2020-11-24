@@ -1,11 +1,9 @@
 using System;
 using System.Threading;
 
-namespace virtualpets
-{
+namespace virtualpets {
 
-    public enum AppState
-    {
+    public enum AppState {
         Running,
         Help,
         Paused,
@@ -15,127 +13,109 @@ namespace virtualpets
 
     }
 
-    class App : RealTimeComponent
-    {
+    class App : RealTimeComponent {
         //private bool appRunning = true;
         AppState appState = AppState.Running;
-        Counter counter = new Counter(1000);
+        Counter counter = new Counter (1000);
+        Shop shop = Dependancy.CreateShop();
 
-        public int startTemp = new Random().Next(5,40);
+        public int startTemp = new Random ().Next (5, 40);
         Pet pet;
 
-        public App()
-        {
-            
+
+        public App () {
+
         }
 
-        public void Run()
-        {
-            Initialise();
+        public void Run () {
+            Initialise ();
+            SelectPet ();
 
-            do
-            {
-                CheckKeyInput();
+            do {
+                CheckKeyInput ();
 
-                switch (appState)
-                {
+                switch (appState) {
                     case AppState.Running:
-                        Update();
-                        Display();
-                        
+                        Update ();
+                        Display ();
+
                         break;
                     case AppState.Paused:
                         break;
                     case AppState.Help:
-                        DisplayHelp();
+                        DisplayHelp ();
                         break;
-                        case AppState.Shop:
-                        DisplayHelp();
+                    case AppState.Shop:
+                        shop.DisplayToys();
+                        shop.PurchaseToys();
                         break;
-                        case AppState.Feed:
-                        pet.Update();
+                    case AppState.Feed:
+                        pet.Hunger -= 10;
+                        pet.Update ();
                         break;
                     default:
                         break;
                 }
-                
-                
-                Thread.Sleep(1000/10);
+
+                Thread.Sleep (1000 / 10);
             } while (appState != AppState.Exiting);
         }
 
-        public void DisplayHelp()
-        {
+        public void DisplayHelp () {
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Clear();
-            Console.WriteLine("Help");
-            Console.WriteLine("\n\nPress Any key to Continue \nHopefully this is helpful");
-            Console.ReadKey(true);
+            Console.Clear ();
+            Console.WriteLine ("Help");
+            Console.WriteLine ("\n\nPress Any key to Continue \nHopefully this is helpful");
+            Console.ReadKey (true);
             appState = AppState.Running;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Clear();
+            Console.Clear ();
         }
 
-        public void Initialise()
-        {
+        public void Initialise () {
             Console.CursorVisible = false;
-            Console.Clear();
-            counter.Initialise();
+            Console.Clear ();
+            counter.Initialise ();
         }
 
-        public void CheckKeyInput()
-        {
-            if (Console.KeyAvailable)
-            {
-                ConsoleKey keyPressed = Console.ReadKey(true).Key;
+        public void CheckKeyInput () {
+            if (Console.KeyAvailable) {
+                ConsoleKey keyPressed = Console.ReadKey (true).Key;
 
-                if (keyPressed == ConsoleKey.Escape)
-                {
+                if (keyPressed == ConsoleKey.Escape) {
                     appState = AppState.Exiting;
                 }
 
-                if (keyPressed == ConsoleKey.UpArrow)
-                {
+                if (keyPressed == ConsoleKey.UpArrow) {
                     counter.TickSpeed++;
                 }
 
-                if (keyPressed == ConsoleKey.DownArrow)
-                {
+                if (keyPressed == ConsoleKey.DownArrow) {
                     counter.TickSpeed--;
                 }
 
-                if (keyPressed == ConsoleKey.R)
-                {
-                    counter.Initialise();
+                if (keyPressed == ConsoleKey.R) {
+                    counter.Initialise ();
                 }
 
-                if (keyPressed == ConsoleKey.H)
-                {
+                if (keyPressed == ConsoleKey.H) {
                     appState = AppState.Help;
                 }
 
-                  if (keyPressed == ConsoleKey.S)
-                {
+                if (keyPressed == ConsoleKey.S) {
                     appState = AppState.Shop;
                 }
 
-                  if (keyPressed == ConsoleKey.F)
-                {
+                if (keyPressed == ConsoleKey.F) {
                     appState = AppState.Feed;
                 }
 
-
-
-                if (keyPressed == ConsoleKey.P)
-                {
-                    if (appState != AppState.Paused)
-                    {
+                if (keyPressed == ConsoleKey.P) {
+                    if (appState != AppState.Paused) {
                         appState = AppState.Paused;
-                    }
-                    else if (appState == AppState.Paused)
-                    {
+                    } else if (appState == AppState.Paused) {
                         appState = AppState.Running;
                     }
 
@@ -143,44 +123,37 @@ namespace virtualpets
             }
         }
 
-        public void Update()
-        {
-            counter.Update();
+        public void Update () {
+            counter.Update ();
         }
 
-        public void Display()
-        {
-            Console.Clear();
-            counter.Display();
+        public void Display () {
+            Console.Clear ();
+            counter.Display ();
         }
 
-        public Pet SelectPet(){
-            Console.WriteLine("Select a pet");
-            Console.WriteLine("1. Snake");
-            Console.WriteLine("2. Penguin");
-            int selection = Convert.ToInt32(Console.ReadLine());
+        public Pet SelectPet () {
+            Console.WriteLine ("Select a pet");
+            Console.WriteLine ("1. Snake");
+            Console.WriteLine ("2. Penguin");
+            int selection = Convert.ToInt32 (Console.ReadLine ());
 
-            switch (selection){
-                case 1: 
-                return Dependancy.CreateSnake();
-                Console.WriteLine("Snakey! I choose you!");
-                break;
+         
+            if (selection == 1) {
+                Console.WriteLine ("Snakey! I choose you!");
+                return Dependancy.CreateSnake ();
+            } else if (selection == 2) {
+                Console.WriteLine ("Pengu! I choose you!");
+                return Dependancy.CreatePenguin ();
 
-                case 2: 
-                return Dependancy.CreatePenguin();
-                Console.WriteLine("Pengu! I choose you!");
-                break;
-                
-                default:
-                Console.WriteLine("Invalid Choice");
-                Console.WriteLine("You're a terrible person and don't deserve a pet. Good bye");
+            } else {
+                Console.WriteLine ("Invalid Choice");
+                Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
                 return null;
-                
-                
             }
         }
 
-        public void DisplayMenu(){
+        public void DisplayMenu () {
 
         }
     }
