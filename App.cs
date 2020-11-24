@@ -20,6 +20,7 @@ namespace virtualpets {
         Shop shop = Dependancy.CreateShop();
 
         public int startTemp = new Random ().Next (5, 40);
+        
         Pet pet;
 
 
@@ -38,6 +39,7 @@ namespace virtualpets {
                     case AppState.Running:
                         Update ();
                         Display ();
+                        
 
                         break;
                     case AppState.Paused:
@@ -132,7 +134,7 @@ namespace virtualpets {
             counter.Display ();
         }
 
-        public Pet SelectPet () {
+        public void SelectPet () {
             Console.WriteLine ("Select a pet");
             Console.WriteLine ("1. Snake");
             Console.WriteLine ("2. Penguin");
@@ -141,19 +143,21 @@ namespace virtualpets {
          
             if (selection == 1) {
                 Console.WriteLine ("Snakey! I choose you!");
-                return Dependancy.CreateSnake ();
+                pet = Dependancy.CreateSnake ();
+                DisplayMenu();
             } else if (selection == 2) {
                 Console.WriteLine ("Pengu! I choose you!");
-                return Dependancy.CreatePenguin ();
-
+                pet = Dependancy.CreatePenguin ();
+                DisplayMenu();
             } else {
                 Console.WriteLine ("Invalid Choice");
                 Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
-                return null;
+                appState = AppState.Exiting;
             }
         }
 
         public void DisplayMenu () {
+            Console.WriteLine(pet);
 
         }
     }
