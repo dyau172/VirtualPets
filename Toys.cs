@@ -17,10 +17,5 @@ namespace virtualpets {
 
       
                 
-        public void ToyDetails () {
-            Console.WriteLine ($"Name: {Name}");
-            Console.WriteLine ($"Cost: {Cost}");
-        }
-
     }
 }

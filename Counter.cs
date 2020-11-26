@@ -31,7 +31,7 @@ namespace virtualpets
 
         public void Initialise()
         {
-            TickSpeed = 2;
+            TickSpeed = 1;
             count = startCount;
         }
 

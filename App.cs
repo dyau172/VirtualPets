@@ -9,21 +9,23 @@ namespace virtualpets {
         Paused,
         Exiting,
         Shop,
-        Feed
+        Feed,
+        Inventory,
+        PurchaseBall,
+        PurchaseSlipper
 
     }
 
-    class App : RealTimeComponent {
+    public class App : RealTimeComponent {
         //private bool appRunning = true;
         AppState appState = AppState.Running;
         Counter counter = new Counter (1000);
         Shop shop = Dependancy.CreateShop ();
+        Inventory bag = Dependancy.CreateInventory ();
+        Pet pet;
 
         public int startTemp = new Random ().Next (5, 40);
         int currentTemp;
-
-        Pet pet = new Dog("Bob", true, 50, 50, 24);
-        
 
         public App () {
 
@@ -31,8 +33,6 @@ namespace virtualpets {
 
         public void Run () {
 
-            
-            
             Initialise ();
 
             do {
@@ -40,8 +40,9 @@ namespace virtualpets {
 
                 switch (appState) {
                     case AppState.Running:
-                        Update();
-                        Draw();                      
+                        pet.Happiness -= 1;
+                        bag.Coins += 1;
+                        Draw ();
 
                         break;
                     case AppState.Paused:
@@ -50,18 +51,26 @@ namespace virtualpets {
                         DisplayHelp ();
                         break;
                     case AppState.Shop:
-                        shop.DisplayToys ();
-                        shop.PurchaseToys ();
+                        DrawShop ();
                         break;
                     case AppState.Feed:
-
                         pet.Update ();
+                        break;
+                    case AppState.Inventory:
+                        DrawInventory ();
+                        break;
+                    case AppState.PurchaseBall:
+                        DrawShop ();
+                        //shop.PurchaseToys();
+                        break;
+                    case AppState.PurchaseSlipper:
+                        DrawShop ();
                         break;
                     default:
                         break;
                 }
 
-                Thread.Sleep (1000 / 10);
+                Thread.Sleep (1000 / 2);
             } while (appState != AppState.Exiting);
         }
 
@@ -82,7 +91,7 @@ namespace virtualpets {
             Console.CursorVisible = false;
             Console.Clear ();
             counter.Initialise ();
-            
+
         }
 
         public void CheckKeyInput () {
@@ -109,11 +118,21 @@ namespace virtualpets {
                     appState = AppState.Help;
                 }
 
-                if (keyPressed == ConsoleKey.W) {
-                 Console.WriteLine("Cow");
+                if (keyPressed == ConsoleKey.S) {
+                    appState = AppState.Shop;
                 }
-
-               
+                if (keyPressed == ConsoleKey.B) {
+                    appState = AppState.Running;
+                }
+                if (keyPressed == ConsoleKey.T) {
+                    appState = AppState.Inventory;
+                }
+                if (keyPressed == ConsoleKey.NumPad1) {
+                    appState = AppState.PurchaseBall;
+                }
+                if (keyPressed == ConsoleKey.NumPad2) {
+                    appState = AppState.PurchaseSlipper;
+                }
 
                 if (keyPressed == ConsoleKey.P) {
                     if (appState != AppState.Paused) {
@@ -135,8 +154,6 @@ namespace virtualpets {
             counter.Display ();
         }
 
-        
-
         public void SelectPet () {
             Console.WriteLine ("Select a pet");
             Console.WriteLine ("1. Snake");
@@ -146,56 +163,83 @@ namespace virtualpets {
             if (selection == 1) {
                 Console.WriteLine ("Snakey! I choose you!");
                 pet = Dependancy.CreateSnake ();
-                
-                
+                Console.ReadKey (true);
+
             } else if (selection == 2) {
                 Console.WriteLine ("Pengu! I choose you!");
                 pet = Dependancy.CreatePenguin ();
-                
-                
+                Console.ReadKey (true);
+
+            } else if (selection == 3) {
+                pet = Dependancy.CreateDog ();
             } else {
                 Console.WriteLine ("Invalid Choice");
                 Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
+                Console.ReadKey (true);
                 appState = AppState.Exiting;
-                
+
             }
-        }
-        
-        
-
-        public void DisplayMenu () {
-
         }
 
         public void Draw () {
-            if (pet.Hunger > 0){
-            Console.WriteLine (" ╔════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
-            Console.WriteLine (" ║    Menu        ║   ║      Pet Stats                                 ║  ║                                  ║");
-            Console.WriteLine ($"║    S - Shop    ║   ║      Name: {pet.Name}                          ║  ║ Key                              ║");
-            Console.WriteLine ($"║    F - Feed    ║   ║      Healthy: {pet.Healthy}                    ║  ║                                  ║");
-            Console.WriteLine ($"║    P - Play    ║   ║      Happiness: {pet.Happiness}                ║  ║ 0 - not happy / 100 - very happy ║");
-            Console.WriteLine ($"║    E - Exit    ║   ║      Hunger: {pet.Hunger}                      ║  ║ 0 - starving / 100 full          ║");
-            Console.WriteLine ($"║                ║   ║      Ideal Temperature: {pet.IdealTemperature} ║  ║                                  ║");
-            Console.WriteLine ($"║                ║   ║      Current Temperature: {currentTemp}        ║  ║                                  ║");
-            Console.WriteLine (" ╚════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
-
-            
-            appState = AppState.Running;
-            Console.ReadKey (true);
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear ();
 
+            Console.WriteLine ("╔════════════════╗   ╔════════════════════════════════════════════════╗  ╔══════════════════════════════════╗");
+            Console.WriteLine ("║    Menu        ║   ║      Pet Stats                                 ║  ║                                  ║");
+            Console.WriteLine ($"║    S - Shop    ║   ║      Name: {pet.Name}                                 ║  ║ Key                              ║");
+            Console.WriteLine ($"║    F - Feed    ║   ║      Healthy: {pet.Healthy}                            ║  ║                                  ║");
+            Console.WriteLine ($"║    T - Play    ║   ║      Happiness: {pet.Happiness}                             ║  ║ 0 - not happy / 100 - very happy ║");
+            Console.WriteLine ($"║    E - Exit    ║   ║      Hunger: {pet.Hunger}                                ║  ║ 0 - starving / 100 full          ║");
+            Console.WriteLine ($"║                ║   ║      Ideal Temperature: {pet.IdealTemperature}                     ║  ║                                  ║");
+            Console.WriteLine ($"║    B - Back    ║   ║      Current Temperature: {currentTemp}                    ║  ║                                  ║");
+            Console.WriteLine ("╚════════════════╝   ╚════════════════════════════════════════════════╝  ╚══════════════════════════════════╝");
 
-            }else{
-                Console.WriteLine("Pet has died");
-                Console.ReadKey(true);
-                Environment.Exit(0);
-            }
-
-           
         }
 
-       
+        public void DrawShop () {
+            Console.Clear ();
+            appState = AppState.Paused;
+            Draw ();
+            Console.WriteLine ();
+            Console.WriteLine ("");
+            Console.WriteLine ("╔═════════════════════════════════════╗");
+            Console.WriteLine ("║    Shop                             ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║   {shop.DisplayToys()}              ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║    Coins in bag: {bag.Coins.ToString()}           ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"╚═════════════════════════════════════╝");
+
+            Console.WriteLine ("");
+            Console.WriteLine (" ╔═════════════════════════════════════╗");
+            Console.WriteLine (" ║    Buy                              ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║   Key 1 - Ball                      ║");
+            Console.WriteLine ($"║   Key 2 - Slipper                   ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"╚═════════════════════════════════════╝");
+        }
+
+        public void DrawInventory () {
+            Console.Clear ();
+            appState = AppState.Paused;
+            Draw ();
+            Console.WriteLine ();
+            Console.WriteLine ("");
+            Console.WriteLine ("╔═════════════════════════════════════╗");
+            Console.WriteLine ("║    Inventory                             ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║   {bag.DisplayToys()}              ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"╚═════════════════════════════════════╝");
+        }
+
     }
 }

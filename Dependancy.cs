@@ -11,6 +11,10 @@ namespace virtualpets {
             return new Penguin ("John", false, 20, 10, 16);
         }
 
+        public static Pet CreateDog(){
+            return new Dog ("Bob", true, 50, 50, 24);
+        }
+
         public static Shop CreateShop () {
             return new Shop (); 
         }
@@ -21,11 +25,11 @@ namespace virtualpets {
 
 
         public static Toys CreateBall () {
-            return new Toys ("Ball", 30, 20);
+            return new Toys ("Ball", 30, 10);
         }
 
         public static Toys CreateSlipper () {
-            return new Toys ("Slipper", 2, 3);
+            return new Toys ("Slipper", 2, 10);
         }
 
     }

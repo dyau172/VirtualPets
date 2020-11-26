@@ -4,38 +4,45 @@ using System.Collections.Generic;
 namespace virtualpets {
     public class Shop {
         //List of toys avaiable
-         List<Toys> toylist = new List<Toys> ();
+         public List<Toys> toysForSale = new List<Toys> ();
+         Inventory bag = Dependancy.CreateInventory();
 
         public Shop(){
             Toys ball = Dependancy.CreateBall() ;
             Toys slipper = Dependancy.CreateSlipper();
 
-            toylist.Add(ball);
-            toylist.Add(slipper);
+            toysForSale.Add(ball);
+            toysForSale.Add(slipper);
         }
 
         
         
-        public void DisplayToys () {
+        public string DisplayToys () {
             //Print list of toys to purchase
-            foreach(Toys toy in toylist){
-                Console.WriteLine(toy);
+            string toylist = "";
+            foreach(Toys toy in toysForSale){
+                toylist += $"{toy.Name}\n";
             };
+            return toylist;
         }
 
-        public void PurchaseToys () {
+        public void PurchaseToys (Toys toy) {
             //add toy from list from purchase list
+            toysForSale.Add(toy);
+           
             
 
         }
-
-        public void UpdateCoin () {
+         public void UpdateCoin () {
             //deduct payment
 
         }
 
-        public void UpdateInventory () {
-            //Display inventory with new purchased toy
-        }
+
+        
+
+        
+
+        
     }
 }
