@@ -22,8 +22,8 @@ namespace virtualpets {
         public int Hunger {get; set;}
 
         
-        public int IdealTemperature { get; set; }
-        public Pet (string name, bool healthy, int happiness, int hunger, int idealTemp) {
+        public double IdealTemperature { get; set; }
+        public Pet (string name, bool healthy, int happiness, int hunger, double idealTemp) {
            
 
         }

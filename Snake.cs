@@ -3,7 +3,7 @@ using System;
 namespace virtualpets {
     class Snake : Pet {
         
-        public Snake (string name, bool healthy, int hunger, int happiness, int idealTemp)
+        public Snake (string name, bool healthy, int hunger, int happiness, double idealTemp)
         :base(name, healthy, hunger, happiness, idealTemp)
         {
             Name = name;

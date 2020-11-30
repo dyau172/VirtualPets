@@ -4,7 +4,7 @@ namespace virtualpets {
     class Penguin : Pet {
         
 
-        public Penguin (string name, bool healthy, int happiness, int hunger, int idealTemp) : base (name, healthy, happiness, hunger, idealTemp) {
+        public Penguin (string name, bool healthy, int happiness, int hunger, double idealTemp) : base (name, healthy, happiness, hunger, idealTemp) {
             Name = name;
             Healthy = healthy;
             Happiness = happiness;
