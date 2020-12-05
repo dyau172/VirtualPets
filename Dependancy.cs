@@ -8,7 +8,7 @@ namespace virtualpets {
         }
 
         public static Pet CreatePenguin () {
-            return new Penguin ("John", false, 20, 10, 16);
+            return new Penguin ("John", true, 20, 10, 16);
         }
 
         public static Pet CreateDog(){
@@ -25,7 +25,7 @@ namespace virtualpets {
 
 
         public static Toys CreateBall () {
-            return new Toys ("Ball", 30, 10);
+            return new Toys ("Ball", 10, 10);
         }
 
         public static Toys CreateSlipper () {

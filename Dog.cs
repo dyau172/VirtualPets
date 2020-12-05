@@ -18,8 +18,5 @@ namespace virtualpets {
 
         }
 
-        public override void Update(){
-            Console.WriteLine("Do something");
-        }
     }
 }

@@ -5,7 +5,7 @@ namespace virtualpets {
         public string Name {get; set;}
         public bool Healthy { get; set; }
         
-        public int Happiness { get; set; }
+        public double Happiness { get; set; }
         
         /*
         public int Hunger{
@@ -19,18 +19,16 @@ namespace virtualpets {
             }
         }
         */
-        public int Hunger {get; set;}
+        public double Hunger {get; set;}
 
         
         public double IdealTemperature { get; set; }
-        public Pet (string name, bool healthy, int happiness, int hunger, double idealTemp) {
-           
+        public Pet (string name, bool healthy, double happiness, double hunger, double idealTemp) {
+           healthy = true;
 
         }
 
-        public virtual void Update(){
-
-        }
+    
         /*
 
         public virtual void DisplayPetStats(){

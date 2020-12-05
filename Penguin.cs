@@ -4,7 +4,7 @@ namespace virtualpets {
     class Penguin : Pet {
         
 
-        public Penguin (string name, bool healthy, int happiness, int hunger, double idealTemp) : base (name, healthy, happiness, hunger, idealTemp) {
+        public Penguin (string name, bool healthy, double happiness, double hunger, double idealTemp) : base (name, healthy, happiness, hunger, idealTemp) {
             Name = name;
             Healthy = healthy;
             Happiness = happiness;
@@ -13,10 +13,7 @@ namespace virtualpets {
 
         }
 
-         public override void Update(){
-            Console.WriteLine("Do something");
-        }
-
+    
         /*
         public override void DisplayPetStats () {
             Console.WriteLine ($"Name: {Name}");
