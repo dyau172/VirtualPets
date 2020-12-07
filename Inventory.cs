@@ -9,8 +9,7 @@ namespace virtualpets {
         public int Medicine;
 
         Room room = new Room ();
-        App app; 
-
+       
         public Inventory () {
 
         }
@@ -76,7 +75,8 @@ namespace virtualpets {
                 Coins = Coins - item.Cost;
             } else {
                 Console.WriteLine ("You don't have enough coins");
-                app.DrawMenu();
+                Console.ReadKey(true);
+                
             }
 
         }
