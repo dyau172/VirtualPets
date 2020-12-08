@@ -13,5 +13,10 @@ namespace virtualpets {
 
         }
 
+        public override void FeedPet(){
+            Hunger += 10;
+        }
+
+
     }
 }

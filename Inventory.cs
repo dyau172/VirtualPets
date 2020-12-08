@@ -5,11 +5,11 @@ namespace virtualpets {
     public class Inventory {
         public List<Toys> toysPurchased = new List<Toys> ();
 
-        public int Coins;
-        public int Medicine;
+        List<Medicine> MedicineList = new List<Medicine> ();
 
-        Room room = new Room ();
-       
+        public int Coins;
+        //Room room = new Room ();
+
         public Inventory () {
 
         }
@@ -25,9 +25,9 @@ namespace virtualpets {
                 toysp += $"{toy.Name}\n";
             };
             return index.ToString() + toysp;
+            */
 
-            
-            string toysp = "";
+           /*  string toysp = "";
             for (int i = 0; i < toysPurchased.Count; i++) {
 
                 foreach (Toys toy in toysPurchased) {
@@ -35,20 +35,29 @@ namespace virtualpets {
                     toysp += $"{i} , {toy.Name}\n";
                 };
             }
-            return toysp;
-
-            */
+            return toysp; */
 
             string toysp = "";
             foreach (Toys toy in toysPurchased) {
 
-                toysp += $"{toy.Name}\n";
+                toysp += $"{toy.Name}\n   ";
             };
             return toysp;
 
         }
+
+        public string DisplayMeds () {
+            string medlist = "";
+            Console.SetCursorPosition (2, 16);
+            foreach (Medicine meds in MedicineList) {
+                medlist += $"{meds.Name}\n  ";
+            };
+            return medlist;
+
+        }
         public void PurchaseToys (Toys item) {
             //add toy from list from purchase list
+            Console.WriteLine ("You want to purchase toys. Key 1 for ball/Key 2 for Slippers");
 
             int key = Convert.ToInt32 (Console.ReadLine ());
 
@@ -67,7 +76,29 @@ namespace virtualpets {
 
             } else
                 Console.WriteLine ("Ya did nuffin");
-               
+
+        }
+
+        public void PurchaseMedcine (Medicine item) {
+            //add toy from list from purchase list
+            Console.WriteLine ("You want to purchase medicine. Key 3 for Cheapo Meds/Key 4 for the Expensive stuff");
+            int key = Convert.ToInt32 (Console.ReadLine ());
+
+            if (key == 3) {
+                item = Dependancy.CreateCheapMeds ();
+                UpdateCoinMeds (item);
+                MedicineList.Add (item);
+                Console.WriteLine ("Cheap Medicine added to bag");
+                //Coins = Coins - item.Cost;
+
+            } else if (key == 4) {
+                item = Dependancy.CreateExpMedicine ();
+                UpdateCoinMeds (item);
+                MedicineList.Add (item);
+                Console.WriteLine ("Expensive Medicine added to bag");
+
+            } else
+                Console.WriteLine ("Ya did nuffin");
 
         }
         public void UpdateCoin (Toys item) {
@@ -75,8 +106,18 @@ namespace virtualpets {
                 Coins = Coins - item.Cost;
             } else {
                 Console.WriteLine ("You don't have enough coins");
-                Console.ReadKey(true);
-                
+                Console.ReadKey (true);
+
+            }
+
+        }
+        public void UpdateCoinMeds (Medicine item) {
+            if (Coins > item.Cost) {
+                Coins = Coins - item.Cost;
+            } else {
+                Console.WriteLine ("You don't have enough coins");
+                Console.ReadKey (true);
+
             }
 
         }

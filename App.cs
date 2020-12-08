@@ -1,7 +1,5 @@
 using System;
 using System.Threading;
-using ConsoleTables;
-using static System.ConsoleColor;
 
 namespace virtualpets {
 
@@ -16,7 +14,7 @@ namespace virtualpets {
 
     }
 
-    public class App : RealTimeComponent {
+    class App : RealTimeComponent {
         //private bool appRunning = true;
         AppState appState = AppState.Running;
         Counter counter = new Counter (1000);
@@ -25,7 +23,8 @@ namespace virtualpets {
         Draw borders = new Draw ();
         Room room = new Room ();
         //double temp = new Random().Next(5,30);
-        Toys item;
+        Toys toy;
+        Medicine meds;
         Play play = new Play ();
 
         public App () {
@@ -45,6 +44,10 @@ namespace virtualpets {
                         room.pet.Hunger -= 0.3;
                         bag.Coins += 2;
                         DrawMenu ();
+                        CheckPetHunger ();
+                        CheckPetHappiness ();
+                        room.CheckTemp ();
+                        room.UpdateTemp ();
                         break;
                     case AppState.Paused:
                         break;
@@ -79,13 +82,9 @@ namespace virtualpets {
 
         }
 
-        public void Exit () {
-            appState = AppState.Exiting;
-        }
-
         public void Back () {
             appState = AppState.Running;
-            DrawMenu();
+            DrawMenu ();
         }
 
         public void CheckKeyInput () {
@@ -93,6 +92,9 @@ namespace virtualpets {
                 ConsoleKey keyPressed = Console.ReadKey (true).Key;
 
                 if (keyPressed == ConsoleKey.Escape) {
+                    appState = AppState.Exiting;
+                }
+                if (keyPressed == ConsoleKey.E) {
                     appState = AppState.Exiting;
                 }
 
@@ -112,6 +114,9 @@ namespace virtualpets {
                 }
                 if (keyPressed == ConsoleKey.T) {
                     DrawInventory ();
+                }
+                if (keyPressed == ConsoleKey.F) {
+                    room.pet.FeedPet ();
                 }
 
                 if (keyPressed == ConsoleKey.UpArrow) {
@@ -143,6 +148,7 @@ namespace virtualpets {
 
         public void SelectPet () {
             Pet pet;
+
             Console.WriteLine ("Select a pet");
             Console.WriteLine ("1. Snake");
             Console.WriteLine ("2. Penguin");
@@ -160,8 +166,6 @@ namespace virtualpets {
                 AddPetToRoom (pet);
                 Console.ReadKey (true);
 
-            } else if (selection == 3) {
-                pet = Dependancy.CreateDog ();
             } else {
                 Console.WriteLine ("Invalid Choice");
                 Console.WriteLine ("You're a terrible person and don't deserve a pet. Good bye");
@@ -183,10 +187,10 @@ namespace virtualpets {
             Console.WriteLine ("       Menu                 Pet Stats                                                                     ");
             Console.WriteLine ($"    S - Shop             Name: {room.pet.Name}                                         Key                              ");
             Console.WriteLine ($"    F - Feed             Healthy: {room.pet.Healthy}                                                             ");
-            Console.WriteLine ($"    T - Play             Happiness: {room.pet.Happiness.ToString("0.00")}                                  0 - not happy / 100 - very happy");
-            Console.WriteLine ($"    E - Exit             Hunger: {room.pet.Hunger.ToString("0.00")}                                      0 - starving / 100 full        ");
+            Console.WriteLine ($"    T - Bag              Happiness: {room.pet.Happiness.ToString("0.00")}                                  0 - not happy / 100 - very happy");
+            Console.WriteLine ($"    E - Exit             Hunger: {room.pet.Hunger.ToString("0.00")}                                     0 - starving / 100 full        ");
             Console.WriteLine ($"                         Ideal Temperature: {room.pet.IdealTemperature}                               coins in bag: {bag.Coins.ToString()}");
-            Console.WriteLine ($"    B - Back             Current Temperature: {room.CurrentTemp}                     ");
+            Console.WriteLine ($"    B - Back             Current Temperature: {room.CurrentTemp.ToString("0.00")}                     ");
 
         }
 
@@ -195,14 +199,14 @@ namespace virtualpets {
             appState = AppState.Paused;
             DrawMenu ();
             borders.DrawShopBorder ();
-            Console.SetCursorPosition (2, 12);
-
+            Console.SetCursorPosition (2, 11);
             Console.WriteLine ("    Shop               ");
-            Console.WriteLine ($"                      ");
+            Console.SetCursorPosition (2, 12);
             Console.WriteLine ($"{shop.DisplayToys()}");
+            Console.WriteLine ($"{shop.DisplayMeds()}");
             Console.WriteLine ($"                       ");
 
-            Console.SetCursorPosition (2, 17);
+            Console.SetCursorPosition (2, 19);
             Console.WriteLine ("Do you want to buy anything? y/n");
             char input = Console.ReadKey ().KeyChar;
             if (input == 'y') {
@@ -229,38 +233,152 @@ namespace virtualpets {
             Console.SetCursorPosition (40, 14);
             Console.WriteLine ($"║   Key 2 - Slipper                   ║");
             Console.SetCursorPosition (40, 15);
-            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║   Key 3 - Cheap Medicine            ║");
             Console.SetCursorPosition (40, 16);
-            Console.WriteLine ($"║     B - Back                        ║");
-            Console.SetCursorPosition (40, 17);
-            Console.WriteLine ($"║                                     ║");
+            Console.WriteLine ($"║   Key 4 - Expensive Medicine        ║");
             Console.SetCursorPosition (40, 18);
             Console.WriteLine ($"╚═════════════════════════════════════╝");
+            Console.SetCursorPosition (40, 19);
+            Console.WriteLine ("We sell stuff");
 
-            bag.PurchaseToys (item);
+            bool r = true;
 
-            Console.WriteLine (item);
-            appState = AppState.Running;
-            DrawMenu ();
+            while (r)
+                try {
+
+                    int key = Convert.ToInt32 (Console.ReadLine ());
+
+                    switch (key) {
+                        case 1:
+                            bag.PurchaseToys (toy);
+                            r = false;
+                            break;
+                        case 2:
+                            bag.PurchaseToys (toy);
+                            r = false;
+                            break;
+                        case 3:
+                            bag.PurchaseMedcine (meds);
+                            r = false;
+                            break;
+                        case 4:
+                            bag.PurchaseMedcine (meds);
+                            r = false;
+                            break;
+                        default:
+                            appState = AppState.Running;
+                            DrawMenu ();
+                             r = true;
+                            break;
+                           
+
+                    }
+                    }catch(FormatException){
+                        Console.WriteLine("Enter 1 for toys/ 3 for medicine");
+                        r = true;
+                    }
+
+                   
+                    appState = AppState.Running;
+                    DrawMenu ();
+
+                }
+
+            public void DrawInventory () {
+                Console.Clear ();
+                appState = AppState.Paused;
+                DrawMenu ();
+
+                borders.DrawShopBorder ();
+                Console.SetCursorPosition (4, 11);
+                Console.WriteLine ("   Inventory                        ");
+                Console.WriteLine ($"                                   ");
+                Console.WriteLine ($"   {bag.DisplayToys()}             ");
+                Console.WriteLine ($"   {bag.DisplayMeds()}             ");
+                //play.PlayToy (item);
+
+                //play.DisplayList ();
+
+                Console.WriteLine ("Do you want to use your stuff? y/n");
+                char input = Console.ReadKey ().KeyChar;
+                if (input == 'y') {
+                    DrawUse ();
+                } else {
+                    appState = AppState.Running;
+                    DrawMenu ();
+                }
+
+            }
+
+            public void DrawUse () {
+                Console.SetCursorPosition (40, 10);
+                Console.WriteLine (" ╔═════════════════════════════════════╗");
+                Console.SetCursorPosition (40, 11);
+                Console.WriteLine (" ║    Use                              ║");
+                Console.SetCursorPosition (40, 12);
+                Console.WriteLine ($"║                                     ║");
+                Console.SetCursorPosition (40, 13);
+                Console.WriteLine ($"║   Key 1 - Play with toys            ║");
+                Console.SetCursorPosition (40, 14);
+                Console.WriteLine ($"║   Key 2 - Use medicine              ║");
+                Console.SetCursorPosition (40, 15);
+                Console.WriteLine ($"╚═════════════════════════════════════╝");
+                Console.SetCursorPosition (40, 16);
+                int input = Convert.ToInt32 (Console.ReadLine ());
+                switch (input) {
+                    case 1:
+                        play.PlayToy (toy);
+                        break;
+                    case 2:
+                        meds.UseMeds (meds);
+                        break;
+
+                    default:
+                        appState = AppState.Running;
+                        DrawMenu ();
+                        break;
+                }
+
+            }
+
+            public void CheckPetHunger () {
+
+                if (room.pet.Hunger < 0) {
+                    Console.SetCursorPosition (2, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine ($"{room.pet.Name} doesn't like you anymore");
+                    appState = AppState.Exiting;
+                } else if (room.pet.Hunger < 20) {
+                    Console.SetCursorPosition (2, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine ($"{room.pet.Name} is hungry");
+                    room.pet.Happiness -= 1;
+                    room.pet.Healthy = false;
+                    appState = AppState.Running;
+                } else {
+                    appState = AppState.Running;
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+
+            }
+
+            public void CheckPetHappiness () {
+                if (room.pet.Happiness < 0) {
+                    Console.SetCursorPosition (2, 11);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine ($"{room.pet.Name} has left the room");
+                    appState = AppState.Exiting;
+                } else if (room.pet.Happiness < 20) {
+                    Console.SetCursorPosition (2, 11);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine ($"{room.pet.Name} is unhappy, go play something");
+                    appState = AppState.Running;
+                } else {
+                    appState = AppState.Running;
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+
+            }
 
         }
-
-        public void DrawInventory () {
-            Console.Clear ();
-            appState = AppState.Paused;
-            DrawMenu ();
-
-            borders.DrawShopBorder ();
-            Console.SetCursorPosition (2, 12);
-            Console.WriteLine ("");
-            Console.WriteLine ("   Inventory                        ");
-            Console.WriteLine ($"                                   ");
-           // Console.WriteLine ($"   {bag.DisplayToys()}             ");
-
-            //play.PlayToy (item);
-             play.DisplayList();
-
-        }
-
     }
-}

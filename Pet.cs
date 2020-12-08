@@ -5,21 +5,31 @@ namespace virtualpets {
         public string Name {get; set;}
         public bool Healthy { get; set; }
         
-        public double Happiness { get; set; }
-        
-        /*
-        public int Hunger{
-            get{return Hunger;}
+        //public double Happiness { get; set; }
+          double happiness;
+        public double Happiness{
+            get{return happiness;}
             set{
-                if (value <= 0){
-                    Hunger = 0;
+                if (value >= 100){
+                    happiness = 100;
                 }else {
-                    Hunger = value;
+                    happiness = value;
                 }
             }
-        }
-        */
-        public double Hunger {get; set;}
+        } 
+        double hunger;
+        public double Hunger{
+            get{return hunger;}
+            set{
+                if (value >= 100){
+                    hunger = 100;
+                }else {
+                    hunger = value;
+                }
+            }
+        } 
+        
+        //public double Hunger {get; set;}
 
         
         public double IdealTemperature { get; set; }
@@ -27,6 +37,16 @@ namespace virtualpets {
            healthy = true;
 
         }
+
+        public  virtual void FeedPet(){
+           
+        }
+
+        
+
+
+
+
 
     
         /*

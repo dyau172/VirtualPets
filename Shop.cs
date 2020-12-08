@@ -4,12 +4,15 @@ using System.Collections.Generic;
 namespace virtualpets {
     public class Shop {
         //List of toys avaiable
-        
+        public List<Toys> toysForSale = new List<Toys> ();
+        List<Medicine> medsForSale = new List<Medicine>();
         Inventory bag = Dependancy.CreateInventory ();
         Toys ball = Dependancy.CreateBall ();
         Toys slipper = Dependancy.CreateSlipper ();
+        Medicine cheapMeds = Dependancy.CreateCheapMeds();
+        Medicine expMeds = Dependancy.CreateExpMedicine();
 
-        public List<Toys> toysForSale = new List<Toys> ();
+       
 
         
 
@@ -17,38 +20,26 @@ namespace virtualpets {
 
             toysForSale.Add(ball);
             toysForSale.Add(slipper);
+            medsForSale.Add(cheapMeds);
+            medsForSale.Add(expMeds);
         }
         public string DisplayToys () {
             //Print list of toys to purchase
             string toylist = "";
             Console.SetCursorPosition(2,14);
             foreach (Toys toy in toysForSale) {
-                toylist += $"{toy.Name}\n";
+                toylist += $"{toy.Name}\n  ";
             };
             return toylist;
         }
-    /*
-        public void SelectToy(){
-            
-            
-
-           int key = Convert.ToInt32(Console.ReadLine());
-            if (key == 1){
-               // bag.PurchaseToys(Dependancy.CreateBall());
-
-                Console.WriteLine("Ball added to bag");
-            } else if (key == 2){
-              //  bag.PurchaseToys(Dependancy.CreateSlipper());
-                Console.WriteLine("Slipper added to bag");
-            }else
-            Console.WriteLine("Ya did nuffin");
+        public string DisplayMeds(){
+           string medlist = "";
+            Console.SetCursorPosition(2,16);
+            foreach (Medicine meds in medsForSale) {
+                medlist += $"{meds.Name}\n  ";
+            };
+            return medlist; 
         }
-
-        
-        public void UpdateCoin () {
-            if (bag.Coins > )
-
-        }
-*/
+    
     }
 }

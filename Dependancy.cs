@@ -4,15 +4,11 @@ using System.Collections.Generic;
 namespace virtualpets {
     public class Dependancy {
         public static Pet CreateSnake () {
-            return new Snake ("Tom", true, 80, 50, 26);
+            return new Snake ("Tom", true, 25, 50, 26);
         }
 
         public static Pet CreatePenguin () {
             return new Penguin ("John", true, 20, 10, 16);
-        }
-
-        public static Pet CreateDog(){
-            return new Dog ("Bob", true, 50, 50, 24);
         }
 
         public static Shop CreateShop () {
@@ -31,6 +27,15 @@ namespace virtualpets {
         public static Toys CreateSlipper () {
             return new Toys ("Slipper", 2, 10);
         }
+
+        public static Medicine CreateCheapMeds(){
+            return new Medicine("Cheap Medicine", 10, -10, -10);
+        }
+
+        public static Medicine CreateExpMedicine(){
+            return new Medicine("Expensive Medicine", 50, 20, 20);
+        }
+
 
     }
 }
