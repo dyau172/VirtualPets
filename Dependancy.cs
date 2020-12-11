@@ -11,14 +11,13 @@ namespace virtualpets {
             return new Penguin ("John", true, 20, 10, 16);
         }
 
-        public static Shop CreateShop () {
-            return new Shop (); 
+        public static Shop CreateShop (Inventory bag) {
+            return new Shop (bag); 
         }
 
-        public static Inventory CreateInventory () {
-            return new Inventory ();
+        public static Inventory CreateInventory (Room room) {
+            return new Inventory (room);
         }
-
 
         public static Toys CreateBall () {
             return new Toys ("Ball", 10, 10);
