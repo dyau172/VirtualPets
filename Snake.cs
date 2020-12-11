@@ -1,7 +1,7 @@
 using System;
 
 namespace virtualpets {
-    class Snake : Pet {
+    class Snake : Pet{
 
         public Snake (string name, bool healthy, double hunger, double happiness, double idealTemp) : base (name, healthy, hunger, happiness, idealTemp) {
             Name = name;
@@ -16,6 +16,7 @@ namespace virtualpets {
         public override void FeedPet(){
             Hunger += 10;
         }
+
 
 
     }

@@ -8,17 +8,14 @@ namespace virtualpets {
 
         public Room () {
             CurrentTemp = new Random ().Next (15, 30);
-
         }
 
         public void IncreaseTemp () {
             CurrentTemp += 1.0;
-
         }
 
         public void DecreaseTemp () {
             CurrentTemp -= 1.0;
-
         }
 
         public void PetInRoom (Pet pet) {
@@ -42,10 +39,12 @@ namespace virtualpets {
                 Console.SetCursorPosition (2, 10);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine ("The room is too hot");
+                pet.Happiness -= 1;
             } else if (CurrentTemp < tooCold) {
                 Console.SetCursorPosition (2, 10);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine ("The room is too cold");
+                pet.Happiness -= 1;
             } else {
 
             }
