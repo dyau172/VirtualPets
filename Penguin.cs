@@ -1,7 +1,7 @@
 using System;
 
 namespace virtualpets {
-    class Penguin : Pet {
+    class Penguin : Pet, ISwim {
         
 
         public Penguin (string name, bool healthy, double happiness, double hunger, double idealTemp) : base (name, healthy, happiness, hunger, idealTemp) {
@@ -11,11 +11,14 @@ namespace virtualpets {
             Hunger = hunger;
             IdealTemperature = idealTemp;
 
+        } 
+        public override void FeedPet(){
+            Hunger += 20;
         }
 
-    
-        public override void FeedPet(){
-            Hunger += 50;
+        
+        public void Swim (){
+            Console.WriteLine("Swimming like a fish");
         }
 
     }

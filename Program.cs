@@ -13,7 +13,7 @@ namespace virtualpets {
             } catch (FormatException) {
                 r = true;
             }
-            
+            app.Objectives();
             app.Run ();
         }
     }
